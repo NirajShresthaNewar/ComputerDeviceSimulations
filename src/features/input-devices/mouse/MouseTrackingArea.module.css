@@ -1,0 +1,47 @@
+.area {
+  position: relative;
+  height: 280px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  cursor: none;
+  background-image: radial-gradient(var(--color-border) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+.cursorDot {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  box-shadow: 0 0 10px var(--color-accent);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  transition: box-shadow var(--transition-fast);
+}
+
+.hint {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  font-size: 12px;
+  color: var(--color-text-muted);
+  pointer-events: none;
+}
+
+.actionBadge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  padding: 4px 9px;
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-accent-dim);
+  color: var(--color-accent);
+  border-radius: var(--radius-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}

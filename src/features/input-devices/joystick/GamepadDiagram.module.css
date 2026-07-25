@@ -1,0 +1,66 @@
+.svg {
+  width: 100%;
+  max-width: 340px;
+  height: auto;
+  overflow: visible;
+}
+
+.body {
+  fill: var(--color-surface-raised);
+  stroke: var(--color-border);
+  stroke-width: 1.5;
+}
+
+.stickWell {
+  fill: var(--color-bg);
+  stroke: var(--color-border);
+  stroke-width: 1;
+}
+
+.stickNub {
+  fill: var(--color-accent-dim);
+  stroke: var(--color-accent);
+  stroke-width: 1.5;
+  transition: cx 40ms linear, cy 40ms linear;
+}
+
+.faceBtn {
+  fill: var(--color-bg);
+  stroke: var(--color-border);
+  stroke-width: 1;
+  transition: fill var(--transition-fast);
+}
+
+.faceBtnActive {
+  fill: var(--color-accent);
+  filter: drop-shadow(0 0 5px var(--color-accent));
+}
+
+.faceBtnLabel {
+  fill: var(--color-text-muted);
+  font-size: 8px;
+  font-family: var(--font-mono);
+  pointer-events: none;
+}
+
+.shoulderBtn {
+  fill: var(--color-bg);
+  stroke: var(--color-border);
+  stroke-width: 1;
+}
+
+.shoulderBtnActive {
+  fill: var(--color-accent);
+  filter: drop-shadow(0 0 5px var(--color-accent));
+}
+
+.dpadBase {
+  fill: var(--color-bg);
+  stroke: var(--color-border);
+  stroke-width: 1;
+}
+
+.dpadLabel {
+  fill: var(--color-text-muted);
+  font-size: 12px;
+}

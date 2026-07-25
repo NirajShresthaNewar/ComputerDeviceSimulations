@@ -1,0 +1,77 @@
+.subtitle {
+  color: var(--color-text-muted);
+  margin: 8px 0 24px;
+  font-size: 14px;
+}
+
+.simulateGrid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.left, .right {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.connectPrompt {
+  background: var(--color-surface);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 13.5px;
+}
+
+.connectHint {
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+.connectedLabel {
+  font-size: 12.5px;
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+}
+
+.readout {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 14px;
+}
+
+.readoutLabel {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+  margin-bottom: 8px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+}
+
+.label {
+  color: var(--color-text-muted);
+  font-family: var(--font-body);
+}
+
+.value {
+  color: var(--color-accent);
+}
+
+@media (max-width: 860px) {
+  .simulateGrid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,61 @@
+.wrap {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+}
+
+.svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.tubeBody {
+  fill: var(--color-surface-raised);
+  stroke: var(--color-border);
+  stroke-width: 1.5;
+}
+
+.gun {
+  fill: var(--color-text-muted);
+  opacity: 0.6;
+}
+
+.coil {
+  fill: none;
+  stroke: var(--color-accent-dim);
+  stroke-width: 2;
+  stroke-dasharray: 3 3;
+}
+
+.screen {
+  fill: var(--color-border);
+}
+
+.partLabel {
+  fill: var(--color-text-muted);
+  font-size: 9px;
+  font-family: var(--font-body);
+}
+
+.beam {
+  stroke: var(--color-accent);
+  stroke-width: 1.5;
+  opacity: 0.85;
+  filter: drop-shadow(0 0 3px var(--color-accent));
+  transition: y2 30ms linear, x2 30ms linear;
+}
+
+.beamDot {
+  fill: var(--color-accent);
+  filter: drop-shadow(0 0 6px var(--color-accent));
+}
+
+.caption {
+  margin-top: 12px;
+  font-size: 12.5px;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  min-height: 36px;
+}

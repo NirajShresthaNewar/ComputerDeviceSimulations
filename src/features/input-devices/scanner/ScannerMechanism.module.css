@@ -1,0 +1,104 @@
+.wrap {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.bedFrame {
+  fill: var(--color-surface-raised);
+  stroke: var(--color-border);
+  stroke-width: 1.5;
+}
+
+.glass {
+  fill: #0a0d12;
+  opacity: 0.85;
+}
+
+.page {
+  fill: url(#pageGrad);
+  stroke: #c8c8c0;
+  stroke-width: 1;
+}
+
+.spine {
+  fill: #b8b8ae;
+  opacity: 0.6;
+}
+
+.textLine {
+  fill: #9a9a90;
+}
+
+.lightBar {
+  fill: var(--color-accent);
+  filter: drop-shadow(0 0 8px var(--color-accent));
+}
+
+.beam {
+  stroke: var(--color-accent);
+  stroke-width: 1.5;
+  opacity: 0.85;
+  filter: drop-shadow(0 0 3px var(--color-accent));
+}
+
+.mirror {
+  fill: #cdd6e0;
+  stroke: var(--color-text-muted);
+  stroke-width: 1;
+}
+
+.lens {
+  fill: rgba(61, 220, 151, 0.15);
+  stroke: var(--color-accent-dim);
+  stroke-width: 1.5;
+}
+
+.sensorStrip {
+  fill: var(--color-surface-raised);
+  stroke: var(--color-border);
+  stroke-width: 1;
+}
+
+.sensorDot {
+  fill: var(--color-border);
+  animation: sensorRead 0.5s ease-out;
+}
+
+@keyframes sensorRead {
+  0% { fill: var(--color-accent); r: 2.4; }
+  100% { fill: var(--color-border); r: 1.6; }
+}
+
+.caption {
+  font-size: 12.5px;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  min-height: 54px;
+}
+
+.toggleBtn {
+  padding: 10px;
+  background: var(--color-accent);
+  color: var(--color-bg);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 13.5px;
+}
+.pageText {
+  fill: #3a3a34;
+  font-family: var(--font-body);
+  font-size: 7px;
+  font-weight: 500;
+}

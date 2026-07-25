@@ -1,0 +1,79 @@
+.card {
+  position: relative;
+  display: block;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  overflow: hidden;
+  transition: border-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.card:hover {
+  border-color: var(--color-accent-dim);
+  transform: translateY(-2px);
+}
+
+.cardDisabled {
+  cursor: default;
+  opacity: 0.55;
+}
+
+.cardDisabled:hover {
+  border-color: var(--color-border);
+  transform: none;
+}
+
+.cardTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.category {
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+}
+
+.status {
+  font-size: 10.5px;
+  font-family: var(--font-mono);
+  padding: 2px 7px;
+  border-radius: 3px;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+}
+
+.status-done {
+  color: var(--color-accent);
+  border-color: var(--color-accent-dim);
+}
+
+.name {
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+
+.description {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+/* signature trace, bottom edge — glows on hover for ready devices */
+.trace {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 0;
+  height: 2px;
+  background: var(--color-border);
+}
+
+.card:not(.cardDisabled):hover .trace {
+  background: var(--color-accent);
+  box-shadow: 0 0 6px var(--color-accent);
+}

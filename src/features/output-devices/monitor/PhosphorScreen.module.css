@@ -1,0 +1,26 @@
+.frame {
+  position: relative;
+  background: #000;
+  border: 10px solid var(--color-surface-raised);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.canvas {
+  width: 100%;
+  height: auto;
+  display: block;
+  image-rendering: pixelated;
+}
+
+.scanlineOverlay {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.15) 3px
+  );
+  pointer-events: none;
+}

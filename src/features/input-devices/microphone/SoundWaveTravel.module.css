@@ -1,0 +1,66 @@
+.wrap {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+}
+
+.svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.personHead,
+.personBody {
+  fill: var(--color-text-muted);
+}
+
+.micBody {
+  fill: var(--color-surface-raised);
+  stroke: var(--color-border);
+  stroke-width: 1.5;
+}
+
+.micStand {
+  stroke: var(--color-border);
+  stroke-width: 2;
+}
+
+.caption {
+  fill: var(--color-text-muted);
+  font-size: 11px;
+  font-family: var(--font-body);
+}
+
+.ring {
+  fill: none;
+  stroke: var(--color-accent);
+  stroke-width: 2;
+  transform-origin: 60px 74px;
+  animation-name: ringTravel;
+  animation-timing-function: ease-out;
+  animation-iteration-count: infinite;
+}
+
+@keyframes ringTravel {
+  0% {
+    transform: translateX(0) scale(0.3);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateX(310px) scale(1.6);
+    opacity: 0;
+  }
+}
+
+.micGlow {
+  fill: var(--color-accent);
+  filter: blur(4px);
+  animation: glowPulse 0.4s ease-in-out infinite alternate;
+}
+
+@keyframes glowPulse {
+  from { opacity: 0.3; }
+  to { opacity: 0.7; }
+}

@@ -1,0 +1,48 @@
+import { Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import InputDevicesPage from './pages/InputDevicesPage';
+import OutputDevicesPage from './pages/OutputDevicesPage';
+import StorageDevicesPage from './pages/StorageDevicesPage';
+import DeviceComparisonPage from './pages/DeviceComparisonPage';
+import InteractiveLabsPage from './pages/InteractiveLabsPage';
+import QuizCenterPage from './pages/QuizCenterPage';
+import TeacherDashboardPage from './pages/TeacherDashboardPage';
+import AboutPage from './pages/AboutPage';
+import KeyboardSim from './features/input-devices/keyboard/KeyboardSim';
+import MouseSim from './features/input-devices/mouse/MouseSim';
+import MicSim from './features/input-devices/microphone/MicSim';
+import ScannerSim from './features/input-devices/scanner/ScannerSim';
+// router.jsx
+import JoystickSim from './features/input-devices/joystick/JoystickSim';
+import MonitorSim from './features/output-devices/monitor/MonitorSim';
+import ImpactPrinterSim from './features/output-devices/printer/ImpactPrinterSim';
+import SpeakerSim from './features/output-devices/speaker/SpeakerSim';
+import HddSim from './features/storage-devices/hdd/HddSim';
+import TapeSim from './features/storage-devices/magnetic-tape/TapeSim';
+
+export default function AppRouter() {
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/input-devices" element={<InputDevicesPage />} />
+      <Route path="/input-devices/keyboard" element={<KeyboardSim />} />
+      <Route path="/output-devices" element={<OutputDevicesPage />} />
+      <Route path="/storage-devices" element={<StorageDevicesPage />} />
+      <Route path="/compare" element={<DeviceComparisonPage />} />
+      <Route path="/labs" element={<InteractiveLabsPage />} />
+      <Route path="/quiz" element={<QuizCenterPage />} />
+      <Route path="/teacher" element={<TeacherDashboardPage />} />
+      <Route path="/about" element={<AboutPage />} />
+      <Route path="/input-devices/mouse" element={<MouseSim />} />
+      <Route path="/input-devices/microphone" element={<MicSim />} />
+      <Route path="/input-devices/scanner" element={<ScannerSim />} />
+      <Route path="/input-devices/joystick" element={<JoystickSim />} />
+      <Route path="/output-devices/monitor" element={<MonitorSim />} />
+      <Route path="/output-devices/printer" element={<ImpactPrinterSim />} />
+      <Route path="/output-devices/speaker" element={<SpeakerSim />} />
+
+      <Route path="/storage-devices/hdd" element={<HddSim />} />
+      <Route path="/storage-devices/magnetic-tape" element={<TapeSim />} />
+    </Routes>
+  );
+}

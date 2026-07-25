@@ -1,0 +1,127 @@
+.container {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 24px;
+  background: rgba(30, 30, 40, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 24px;
+  backdrop-filter: blur(12px);
+  margin-top: 16px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 900px) {
+  .container {
+    grid-template-columns: 1fr;
+  }
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 10, 15, 0.5);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 16px;
+}
+
+.panelTitle {
+  font-size: 1.25rem;
+  color: var(--color-text-bright, #ffffff);
+  margin: 0;
+  font-weight: 600;
+}
+
+.subTitle {
+  font-size: 0.9rem;
+  color: var(--color-text-muted, #a0aec0);
+  margin: 0;
+}
+
+.stepsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+.stepRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.stepRow:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.stepRowActive {
+  background: #3182ce;
+  border-color: #63b3ed;
+  color: #fff;
+  box-shadow: 0 0 10px rgba(49, 130, 206, 0.3);
+}
+
+.stepNum {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  font-weight: bold;
+  font-size: 0.8rem;
+}
+
+.stepRowActive .stepNum {
+  background: #fff;
+  color: #3182ce;
+}
+
+.stepLabel {
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.explanation {
+  background: rgba(49, 130, 206, 0.05);
+  border-left: 4px solid #3182ce;
+  padding: 14px;
+  border-radius: 0 8px 8px 0;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: var(--color-text, #e2e8f0);
+}
+
+.canvas {
+  display: block;
+  max-width: 100%;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.instruction {
+  margin-top: 8px;
+  font-size: 0.8rem;
+  color: var(--color-text-muted, #718096);
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}

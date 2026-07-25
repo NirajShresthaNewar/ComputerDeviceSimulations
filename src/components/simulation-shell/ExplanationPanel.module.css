@@ -1,0 +1,50 @@
+.wrap {
+  max-width: 720px;
+}
+
+.description {
+  font-size: 14.5px;
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.block {
+  margin-bottom: 8px;
+}
+
+.heading {
+  font-size: 12.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-accent);
+  margin-bottom: 10px;
+}
+
+.list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.list li {
+  font-size: 13.5px;
+  line-height: 1.5;
+  padding-left: 14px;
+  position: relative;
+  color: var(--color-text-muted);
+}
+
+.list li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--color-border);
+}

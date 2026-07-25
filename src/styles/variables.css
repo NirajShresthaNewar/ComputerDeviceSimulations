@@ -1,0 +1,43 @@
+:root {
+  /* Dark mode (default) — PCB-inspired palette */
+  --color-bg: #0B0E14;
+  --color-surface: #1A1F2B;
+  --color-surface-raised: #20273A;
+  --color-border: #2A3142;
+  --color-text: #E8EAED;
+  --color-text-muted: #8993A8;
+  --color-accent: #3DDC97;       /* signal green — active states, data flow */
+  --color-accent-dim: #2A9A6B;
+  --color-accent-warm: #FF6B4A;  /* secondary accent — alerts, highlights */
+
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --sidebar-width: 260px;
+  --topbar-height: 64px;
+
+  --transition-fast: 120ms ease;
+  --transition-base: 220ms ease;
+}
+
+[data-theme='light'] {
+  --color-bg: #F7F8FA;
+  --color-surface: #FFFFFF;
+  --color-surface-raised: #FFFFFF;
+  --color-border: #D8DCE3;
+  --color-text: #14181F;
+  --color-text-muted: #5B6473;
+  --color-accent: #2CA876;
+  --color-accent-dim: #1F8F62;
+  --color-accent-warm: #E85A3D;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

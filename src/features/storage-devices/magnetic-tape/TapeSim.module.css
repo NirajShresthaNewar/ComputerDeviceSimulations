@@ -1,0 +1,272 @@
+.subtitle {
+  color: var(--text);
+  margin: 8px 0 24px;
+  font-size: 14px;
+}
+
+.simulateGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .simulateGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ---- Controls Panel ---- */
+.controlsPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  border-radius: 14px;
+  background: rgba(30, 41, 59, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  text-align: left;
+}
+
+.controlGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.controlLabel {
+  font-size: 12px;
+  font-family: monospace;
+  color: var(--text);
+  font-weight: bold;
+}
+
+.inputRow {
+  display: flex;
+  gap: 8px;
+}
+
+.textInput {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(15, 23, 42, 0.6);
+  color: #fff;
+  font-size: 14px;
+  outline: none;
+}
+.textInput:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.25);
+}
+
+.btn {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 13.5px;
+}
+.btnPrimary {
+  background: #38bdf8;
+  color: #0f172a;
+}
+.btnPrimary:hover {
+  background: #0ea5e9;
+  box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+}
+.btnSecondary {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+.btnSecondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.actionRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+/* ---- Speed Slider ---- */
+.slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(15, 23, 42, 0.8);
+  outline: none;
+}
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #38bdf8;
+  cursor: pointer;
+  box-shadow: 0 0 6px rgba(56, 189, 248, 0.4);
+}
+
+/* ---- Tape Deck SVG ---- */
+.tapeDeckSvg {
+  width: 100%;
+  height: auto;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+/* ---- Magnetic Canvas Section ---- */
+.magneticViewWrap {
+  margin-top: 10px;
+  position: relative;
+  text-align: left;
+}
+.sectionLabel {
+  font-size: 11px;
+  font-family: monospace;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+  display: inline-block;
+}
+.magneticCanvas {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: #0f172a;
+}
+
+/* ---- Status Log ---- */
+.statusPanel {
+  padding: 16px;
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255,255,255,0.06);
+  font-family: monospace;
+  font-size: 12px;
+  color: #94a3b8;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.statusRow {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  padding-bottom: 4px;
+}
+.statusValue {
+  color: #38bdf8;
+  font-weight: bold;
+}
+.binaryDisplay {
+  color: #22c55e;
+  word-break: break-all;
+  text-align: left;
+  line-height: 1.4;
+  margin-top: 4px;
+}
+
+.logLabel {
+  font-weight: bold;
+  margin-bottom: 4px;
+  color: var(--text);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.logBox {
+  max-height: 90px;
+  overflow-y: auto;
+  text-align: left;
+}
+.logEntry {
+  font-size: 11px;
+  color: #a8a29e;
+  padding: 4px 0;
+  border-bottom: 1px dotted rgba(255,255,255,0.05);
+}
+
+/* ---- Concept / How tape works list ---- */
+.conceptDiagram {
+  padding: 20px;
+  border-radius: 14px;
+  background: rgba(30, 41, 59, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  margin-top: 24px;
+}
+.conceptTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 10px;
+  font-family: monospace;
+  text-align: left;
+}
+.conceptText {
+  font-size: 12.5px;
+  color: var(--text);
+  line-height: 1.6;
+  text-align: left;
+  margin-bottom: 16px;
+}
+.conceptSteps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+}
+.conceptStep {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 12px;
+  border-radius: 10px;
+  background: rgba(30, 41, 59, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+.stepNumber {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(56, 189, 248, 0.12);
+  color: #38bdf8;
+  font-size: 11px;
+  font-weight: bold;
+  font-family: monospace;
+}
+.stepContent {
+  text-align: left;
+}
+.stepTitle {
+  font-size: 12px;
+  font-weight: bold;
+  color: #fff;
+  margin: 0 0 4px;
+}
+.stepDesc {
+  font-size: 11px;
+  color: #94a3b8;
+  line-height: 1.4;
+  margin: 0;
+}
