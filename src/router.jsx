@@ -19,6 +19,9 @@ import ImpactPrinterSim from './features/output-devices/printer/ImpactPrinterSim
 import SpeakerSim from './features/output-devices/speaker/SpeakerSim';
 import HddSim from './features/storage-devices/hdd/HddSim';
 import TapeSim from './features/storage-devices/magnetic-tape/TapeSim';
+import LanguageTranslatorSim from './features/software/language-translators/LanguageTranslatorSim';
+import DeviceDriverSim from './features/software/device-driver/DeviceDriverSim';
+import OperatingSystemSim from './features/software/operating-system/OperatingSystemSim';
 
 export default function AppRouter() {
   return (
@@ -43,6 +46,13 @@ export default function AppRouter() {
 
       <Route path="/storage-devices/hdd" element={<HddSim />} />
       <Route path="/storage-devices/magnetic-tape" element={<TapeSim />} />
+
+      <Route path="/software/operating-system" element={<OperatingSystemSim />} />
+      <Route path="/operating-system" element={<OperatingSystemSim />} />
+      <Route path="/software/device-driver" element={<DeviceDriverSim />} />
+      <Route path="/device-driver" element={<DeviceDriverSim />} />
+      <Route path="/software/language-translators" element={<LanguageTranslatorSim />} />
+      <Route path="/language-translators" element={<LanguageTranslatorSim />} />
     </Routes>
   );
 }

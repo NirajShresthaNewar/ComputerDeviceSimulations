@@ -130,6 +130,32 @@ export const deviceCatalog = [
     description: 'Explore how data is read/written sequentially using magnetic domains on physical tape reels.',
     status: 'done',
   },
+
+  // SOFTWARE & TRANSLATORS
+  {
+    id: 'operating-system',
+    name: 'Operating System',
+    category: 'software',
+    route: '/software/operating-system',
+    description: 'You Are the Operating System! Manage running programs, memory, files, hardware devices, and security.',
+    status: 'done',
+  },
+  {
+    id: 'device-driver',
+    name: 'Device Driver',
+    category: 'software',
+    route: '/software/device-driver',
+    description: 'Learn how Device Drivers act as helpers between the computer and hardware devices like printers, keyboards, and speakers.',
+    status: 'done',
+  },
+  {
+    id: 'language-translators',
+    name: 'Language Translators',
+    category: 'software',
+    route: '/software/language-translators',
+    description: 'Explore how Compilers, Interpreters, and Assemblers convert high-level code and analogies into machine language.',
+    status: 'done',
+  },
 ];
 
 
@@ -137,4 +163,5 @@ export const categories = [
   { id: 'input', label: 'Input Devices' },
   { id: 'output', label: 'Output Devices' },
   { id: 'storage', label: 'Storage Devices' },
+  { id: 'software', label: 'Software & Translators' },
 ];
