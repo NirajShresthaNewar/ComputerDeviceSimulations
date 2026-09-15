@@ -133,6 +133,14 @@ export const deviceCatalog = [
 
   // SOFTWARE & TRANSLATORS
   {
+    id: 'application-software',
+    name: 'Application Software',
+    category: 'software',
+    route: '/software/application-software',
+    description: 'Explore Packaged Software (Ready-Made) vs Tailored Software (Custom-Made) with interactive builders and challenges.',
+    status: 'done',
+  },
+  {
     id: 'operating-system',
     name: 'Operating System',
     category: 'software',

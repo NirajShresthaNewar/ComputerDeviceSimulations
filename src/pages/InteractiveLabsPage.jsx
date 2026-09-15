@@ -148,6 +148,50 @@ export default function InteractiveLabsPage() {
             Open Translator Lab ➔
           </Link>
         </div>
+
+        {/* Application Software Lab */}
+        <div
+          style={{
+            background: 'var(--color-surface)',
+            border: '1px solid var(--color-border)',
+            borderRadius: '12px',
+            padding: '24px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '14px',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <span style={{ fontSize: '1.8rem' }}>📦</span>
+            <div>
+              <h3 style={{ margin: 0, fontSize: '1.2rem', color: 'var(--color-text)' }}>
+                Application Software Lab
+              </h3>
+              <span style={{ fontSize: '0.8rem', color: '#10b981', fontWeight: '600' }}>
+                Class 5 CS • Packaged vs. Tailored
+              </span>
+            </div>
+          </div>
+          <p style={{ color: 'var(--color-text-muted)', margin: 0, fontSize: '0.9rem', lineHeight: 1.45 }}>
+            Discover Packaged (ready-made) vs. Tailored (custom-made) software! Play the Software Chooser, build custom school software, sort items, and advise clients.
+          </p>
+          <Link
+            to="/software/application-software"
+            style={{
+              marginTop: 'auto',
+              padding: '10px 18px',
+              borderRadius: '8px',
+              background: '#10b981',
+              color: '#ffffff',
+              fontWeight: '700',
+              textDecoration: 'none',
+              textAlign: 'center',
+              fontSize: '0.9rem',
+            }}
+          >
+            Open Application Lab ➔
+          </Link>
+        </div>
       </div>
     </div>
   );

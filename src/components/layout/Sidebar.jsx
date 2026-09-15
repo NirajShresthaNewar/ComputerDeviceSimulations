@@ -10,6 +10,7 @@ const navSections = [
       { to: '/input-devices', label: 'Input Devices' },
       { to: '/output-devices', label: 'Output Devices' },
       { to: '/storage-devices', label: 'Storage Devices' },
+      { to: '/software/application-software', label: '📦 Application Software' },
       { to: '/software/operating-system', label: '🖥️ Operating System' },
       { to: '/software/device-driver', label: '🧑‍🔧 Device Driver' },
       { to: '/software/language-translators', label: '🔀 Language Translators' },

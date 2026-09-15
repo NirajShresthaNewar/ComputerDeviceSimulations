@@ -22,6 +22,7 @@ import TapeSim from './features/storage-devices/magnetic-tape/TapeSim';
 import LanguageTranslatorSim from './features/software/language-translators/LanguageTranslatorSim';
 import DeviceDriverSim from './features/software/device-driver/DeviceDriverSim';
 import OperatingSystemSim from './features/software/operating-system/OperatingSystemSim';
+import ApplicationSoftwareSim from './features/software/application-software/ApplicationSoftwareSim';
 
 export default function AppRouter() {
   return (
@@ -47,6 +48,8 @@ export default function AppRouter() {
       <Route path="/storage-devices/hdd" element={<HddSim />} />
       <Route path="/storage-devices/magnetic-tape" element={<TapeSim />} />
 
+      <Route path="/software/application-software" element={<ApplicationSoftwareSim />} />
+      <Route path="/application-software" element={<ApplicationSoftwareSim />} />
       <Route path="/software/operating-system" element={<OperatingSystemSim />} />
       <Route path="/operating-system" element={<OperatingSystemSim />} />
       <Route path="/software/device-driver" element={<DeviceDriverSim />} />

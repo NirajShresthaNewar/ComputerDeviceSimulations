@@ -127,10 +127,10 @@ export default function Home() {
           </Link>
         </div>
 
-        {/* Card 3: Language Translators */}
+        {/* Card 4: Application Software */}
         <div
           style={{
-            background: 'linear-gradient(135deg, rgba(61, 220, 151, 0.12) 0%, rgba(139, 92, 246, 0.15) 100%)',
+            background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(59, 130, 246, 0.15) 100%)',
             border: '1px solid var(--color-border)',
             borderRadius: '16px',
             padding: '24px',
@@ -143,8 +143,8 @@ export default function Home() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <span
               style={{
-                background: 'var(--color-accent)',
-                color: '#0b0e14',
+                background: '#10b981',
+                color: '#ffffff',
                 fontSize: '0.75rem',
                 fontWeight: '700',
                 padding: '3px 8px',
@@ -152,20 +152,20 @@ export default function Home() {
                 textTransform: 'uppercase',
               }}
             >
-              Interactive Lab
+              Interactive Lesson
             </span>
             <span style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem' }}>
               Class 5 Computer Science
             </span>
           </div>
           <h2 style={{ fontSize: '1.35rem', margin: 0, color: 'var(--color-text)' }}>
-            🔀 Language Translators
+            📦 Application Software (Packaged vs Tailored)
           </h2>
           <p style={{ color: 'var(--color-text-muted)', margin: 0, fontSize: '0.9rem', lineHeight: 1.5 }}>
-            Compare High-Level Code to Binary 0s & 1s vs our English ➔ Nepali analogy. Step through line-by-line interpretation & whole-program compilation!
+            Discover Ready-Made Packaged apps vs Custom-Made Tailored software! Build your own school software and test your skills as a Software Advisor.
           </p>
           <Link
-            to="/software/language-translators"
+            to="/software/application-software"
             style={{
               marginTop: 'auto',
               padding: '12px 20px',
@@ -178,7 +178,7 @@ export default function Home() {
               boxShadow: '0 4px 12px rgba(16, 185, 129, 0.35)',
             }}
           >
-            Launch Translator Sim ➔
+            Launch App Software Sim ➔
           </Link>
         </div>
       </div>
