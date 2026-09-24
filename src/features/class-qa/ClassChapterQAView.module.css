@@ -1,0 +1,635 @@
+.smartboardWrapper {
+  max-width: 1060px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  font-family: var(--font-body);
+  animation: fadeIn 0.25s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Smart Board Zoom Modes */
+.zoomNormal {
+  font-size: 15px;
+}
+
+.zoomLarge {
+  font-size: 18px;
+}
+
+.zoomXLarge {
+  font-size: 21px;
+}
+
+/* Header & Control Bar */
+.smartboardHeader {
+  background: linear-gradient(135deg, rgba(61, 220, 151, 0.15), rgba(26, 31, 43, 0.98));
+  border: 1px solid var(--color-border);
+  border-left: 5px solid var(--color-accent);
+  border-radius: var(--radius-md);
+  padding: 16px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.headerTitleGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.headerIcon {
+  font-size: 28px;
+  background: var(--color-surface-raised);
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+}
+
+.headerTitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.headerSubtitle {
+  font-size: 12.5px;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+/* Toolbar Controls */
+.toolbarControls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.zoomControls {
+  display: flex;
+  align-items: center;
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 2px;
+}
+
+.zoomBtn {
+  background: transparent;
+  border: none;
+  color: var(--color-text-muted);
+  padding: 5px 9px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.zoomBtn:hover {
+  color: var(--color-text);
+}
+
+.zoomBtnActive {
+  background: var(--color-accent);
+  color: #0B0E14 !important;
+  font-weight: 700;
+}
+
+.toolBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 7px 11px;
+  color: var(--color-text);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.toolBtn:hover {
+  border-color: var(--color-accent);
+  background: rgba(61, 220, 151, 0.1);
+}
+
+.toolBtnActive {
+  background: rgba(61, 220, 151, 0.25);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+.editModeBtn {
+  background: rgba(255, 184, 77, 0.15);
+  border-color: rgba(255, 184, 77, 0.5);
+  color: #ffb84d;
+}
+
+.editModeBtn:hover {
+  background: rgba(255, 184, 77, 0.25);
+  border-color: #ffb84d;
+}
+
+/* Edit Mode Banner */
+.editModeBanner {
+  background: rgba(255, 184, 77, 0.1);
+  border: 1px dashed rgba(255, 184, 77, 0.6);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 13.5px;
+  color: #ffb84d;
+}
+
+.editActionsGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.smallActionBtn {
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.smallActionBtn:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.dangerBtn:hover {
+  border-color: var(--color-accent-warm);
+  color: var(--color-accent-warm);
+}
+
+/* Navigation Sub-menu Tabs */
+.tabNav {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  border-bottom: 2px solid var(--color-border);
+  padding-bottom: 8px;
+}
+
+.tabBtn {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all var(--transition-fast);
+}
+
+.tabBtn:hover {
+  color: var(--color-text);
+  border-color: var(--color-accent);
+}
+
+.tabBtnActive {
+  background: var(--color-accent);
+  color: #0B0E14 !important;
+  border-color: var(--color-accent);
+  box-shadow: 0 2px 8px rgba(61, 220, 151, 0.3);
+}
+
+.badgePill {
+  background: rgba(0, 0, 0, 0.15);
+  font-size: 11px;
+  padding: 2px 7px;
+  border-radius: 10px;
+  font-weight: 700;
+}
+
+.tabBtnActive .badgePill {
+  background: #0B0E14;
+  color: #fff;
+}
+
+/* Search Bar */
+.searchContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 12px;
+  color: var(--color-text-muted);
+  font-size: 14px;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 9px 14px 9px 36px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+  font-size: 14px;
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+.searchInput:focus {
+  border-color: var(--color-accent);
+}
+
+/* SECTION 4: QUESTION ANSWER CARDS */
+.sectionBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sectionHeadingRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-border);
+  padding: 6px 0;
+}
+
+.sectionHeading {
+  font-size: 1.15em;
+  font-weight: 700;
+  color: var(--color-accent);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.qaCard {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 14px 18px;
+  transition: border-color var(--transition-fast), transform var(--transition-fast);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+}
+
+.qaCard:hover {
+  border-color: rgba(61, 220, 151, 0.4);
+}
+
+.questionLine {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.qTextGroup {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex: 1;
+}
+
+.qLabelBadge {
+  background: var(--color-surface-raised);
+  color: var(--color-accent);
+  border: 1px solid var(--color-border);
+  font-weight: 700;
+  font-size: 0.9em;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.questionTitle {
+  font-weight: 700;
+  color: var(--color-text);
+  font-size: 1.05em;
+  line-height: 1.4;
+  flex: 1;
+}
+
+.answerBox {
+  background: var(--color-surface-raised);
+  border-radius: 4px;
+  padding: 10px 14px;
+  border-left: 3.5px solid var(--color-accent);
+  margin-top: 4px;
+  animation: fadeIn 0.15s ease-out;
+}
+
+.answerText {
+  color: var(--color-text);
+  font-size: 1.02em;
+  line-height: 1.55;
+  white-space: pre-line;
+}
+
+.highlightBadge {
+  background: rgba(61, 220, 151, 0.18);
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid rgba(61, 220, 151, 0.4);
+  margin: 0 3px;
+  display: inline-block;
+}
+
+.cardRightBtns {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.toggleCardBtn {
+  background: transparent;
+  border: none;
+  color: var(--color-text-muted);
+  font-size: 0.85em;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all var(--transition-fast);
+}
+
+.toggleCardBtn:hover {
+  color: var(--color-accent);
+  background: var(--color-surface-raised);
+}
+
+.deleteItemBtn {
+  background: transparent;
+  border: none;
+  color: var(--color-accent-warm);
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 3px;
+  opacity: 0.7;
+}
+
+.deleteItemBtn:hover {
+  opacity: 1;
+  background: rgba(255, 107, 74, 0.15);
+}
+
+/* Edit Mode Inputs */
+.editInput {
+  width: 100%;
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+  font-size: 0.95em;
+  padding: 8px 10px;
+  font-family: inherit;
+  outline: none;
+}
+
+.editTextarea {
+  width: 100%;
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+  font-size: 0.95em;
+  padding: 8px 10px;
+  font-family: inherit;
+  outline: none;
+  min-height: 70px;
+  resize: vertical;
+}
+
+/* Differentiation Table */
+.tableWrapper {
+  overflow-x: auto;
+  margin-top: 6px;
+}
+
+.compactTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.98em;
+  background: var(--color-surface-raised);
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+}
+
+.compactTable th {
+  background: rgba(61, 220, 151, 0.15);
+  color: var(--color-accent);
+  font-weight: 700;
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 2px solid var(--color-border);
+}
+
+.compactTable td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text);
+  line-height: 1.45;
+}
+
+.compactTable tr:last-child td {
+  border-bottom: none;
+}
+
+/* Definitions Block */
+.defGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.defItem {
+  padding: 6px 10px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 4px;
+  line-height: 1.5;
+}
+
+/* SECTION 5: FUNCTIONS OF DOS COMMANDS GRID */
+.dosGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: 10px;
+}
+
+.dosCard {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  transition: all var(--transition-fast);
+}
+
+.dosCard:hover {
+  border-color: var(--color-accent);
+  background: rgba(61, 220, 151, 0.04);
+  transform: translateY(-1px);
+}
+
+.dosLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dosLabel {
+  font-size: 0.85em;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  width: 20px;
+}
+
+.dosCmdBadge {
+  background: var(--color-surface-raised);
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: 1.05em;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--color-border);
+  letter-spacing: 0.03em;
+  min-width: 85px;
+  text-align: center;
+}
+
+.dosFunction {
+  color: var(--color-text);
+  font-size: 0.98em;
+  line-height: 1.4;
+  flex: 1;
+}
+
+.dosTypeTag {
+  font-size: 0.75em;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.tagInternal {
+  background: rgba(61, 220, 151, 0.15);
+  color: var(--color-accent);
+  border: 1px solid rgba(61, 220, 151, 0.3);
+}
+
+.tagExternal {
+  background: rgba(255, 107, 74, 0.15);
+  color: var(--color-accent-warm);
+  border: 1px solid rgba(255, 107, 74, 0.3);
+}
+
+/* Add Item Button */
+.addItemBtn {
+  background: transparent;
+  border: 1px dashed var(--color-border);
+  color: var(--color-accent);
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all var(--transition-fast);
+}
+
+.addItemBtn:hover {
+  background: rgba(61, 220, 151, 0.08);
+  border-color: var(--color-accent);
+}
+
+/* Quick Summary Bar */
+.bottomStatsBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.9em;
+  color: var(--color-text-muted);
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Print Optimization */
+@media print {
+  .smartboardHeader,
+  .toolbarControls,
+  .tabNav,
+  .searchContainer,
+  .toggleCardBtn,
+  .editModeBanner,
+  .addItemBtn,
+  .deleteItemBtn {
+    display: none !important;
+  }
+  .answerBox {
+    display: block !important;
+  }
+  .smartboardWrapper {
+    color: #000 !important;
+    background: #fff !important;
+  }
+  .dosCard, .qaCard {
+    border: 1px solid #ccc !important;
+    background: #fff !important;
+    color: #000 !important;
+  }
+  .dosCmdBadge, .highlightBadge {
+    background: #eee !important;
+    color: #000 !important;
+  }
+}

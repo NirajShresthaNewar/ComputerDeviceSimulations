@@ -8,11 +8,13 @@ import InteractiveLabsPage from './pages/InteractiveLabsPage';
 import QuizCenterPage from './pages/QuizCenterPage';
 import TeacherDashboardPage from './pages/TeacherDashboardPage';
 import AboutPage from './pages/AboutPage';
+import ClassQAPage from './pages/ClassQAPage';
+import ClassChapterQAView from './features/class-qa/ClassChapterQAView';
+import CyberVirusLabSim from './features/cyber-lab/CyberVirusLabSim';
 import KeyboardSim from './features/input-devices/keyboard/KeyboardSim';
 import MouseSim from './features/input-devices/mouse/MouseSim';
 import MicSim from './features/input-devices/microphone/MicSim';
 import ScannerSim from './features/input-devices/scanner/ScannerSim';
-// router.jsx
 import JoystickSim from './features/input-devices/joystick/JoystickSim';
 import MonitorSim from './features/output-devices/monitor/MonitorSim';
 import ImpactPrinterSim from './features/output-devices/printer/ImpactPrinterSim';
@@ -34,6 +36,8 @@ export default function AppRouter() {
       <Route path="/storage-devices" element={<StorageDevicesPage />} />
       <Route path="/compare" element={<DeviceComparisonPage />} />
       <Route path="/labs" element={<InteractiveLabsPage />} />
+      <Route path="/labs/cyber-virus-lab" element={<CyberVirusLabSim />} />
+      <Route path="/cyber-virus-lab" element={<CyberVirusLabSim />} />
       <Route path="/quiz" element={<QuizCenterPage />} />
       <Route path="/teacher" element={<TeacherDashboardPage />} />
       <Route path="/about" element={<AboutPage />} />
@@ -56,6 +60,13 @@ export default function AppRouter() {
       <Route path="/device-driver" element={<DeviceDriverSim />} />
       <Route path="/software/language-translators" element={<LanguageTranslatorSim />} />
       <Route path="/language-translators" element={<LanguageTranslatorSim />} />
+
+      {/* Class Syllabus Q&A Routes */}
+      <Route path="/class-qa" element={<ClassQAPage />} />
+      <Route path="/class-qa/:classId" element={<ClassQAPage />} />
+      <Route path="/class-qa/class-6/chapter-5" element={<ClassChapterQAView />} />
+      <Route path="/class-qa/:classId/:chapterId" element={<ClassChapterQAView />} />
+      <Route path="/class/6/chapter/5" element={<ClassChapterQAView />} />
     </Routes>
   );
 }

@@ -1,6 +1,7 @@
 import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
 import { LanguageProvider } from './context/LanguageContext';
+import { SidebarProvider } from './context/SidebarContext';
 import Sidebar from './components/layout/Sidebar';
 import Topbar from './components/layout/Topbar';
 import AppRouter from './router';
@@ -11,17 +12,19 @@ export default function App() {
   return (
     <ThemeProvider>
       <LanguageProvider>
-        <BrowserRouter>
-          <div style={{ display: 'flex' }}>
-            <Sidebar />
-            <div style={{ flex: 1, minHeight: '100vh' }}>
-              <Topbar />
-              <main style={{ padding: '32px' }}>
-                <AppRouter />
-              </main>
+        <SidebarProvider>
+          <BrowserRouter>
+            <div style={{ display: 'flex', width: '100%', minHeight: '100vh', position: 'relative' }}>
+              <Sidebar />
+              <div style={{ flex: 1, minWidth: 0, minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+                <Topbar />
+                <main style={{ flex: 1, padding: '24px 32px' }}>
+                  <AppRouter />
+                </main>
+              </div>
             </div>
-          </div>
-        </BrowserRouter>
+          </BrowserRouter>
+        </SidebarProvider>
       </LanguageProvider>
     </ThemeProvider>
   );
