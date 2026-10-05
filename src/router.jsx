@@ -25,11 +25,14 @@ import LanguageTranslatorSim from './features/software/language-translators/Lang
 import DeviceDriverSim from './features/software/device-driver/DeviceDriverSim';
 import OperatingSystemSim from './features/software/operating-system/OperatingSystemSim';
 import ApplicationSoftwareSim from './features/software/application-software/ApplicationSoftwareSim';
+import QuizWheelPage from './features/classroom-quiz-wheel/QuizWheelPage';
 
 export default function AppRouter() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/quiz-wheel" element={<QuizWheelPage />} />
+      <Route path="/classroom-quiz-wheel" element={<QuizWheelPage />} />
       <Route path="/input-devices" element={<InputDevicesPage />} />
       <Route path="/input-devices/keyboard" element={<KeyboardSim />} />
       <Route path="/output-devices" element={<OutputDevicesPage />} />

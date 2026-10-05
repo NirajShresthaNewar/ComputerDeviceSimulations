@@ -17,6 +17,50 @@ export default function InteractiveLabsPage() {
           gap: '20px',
         }}
       >
+        {/* Classroom Quiz Wheel Card */}
+        <div
+          style={{
+            background: 'linear-gradient(135deg, rgba(236, 72, 153, 0.1), rgba(139, 92, 246, 0.15))',
+            border: '1px solid rgba(236, 72, 153, 0.4)',
+            borderRadius: '12px',
+            padding: '24px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '14px',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <span style={{ fontSize: '1.8rem' }}>🎡</span>
+            <div>
+              <h3 style={{ margin: 0, fontSize: '1.2rem', color: 'var(--color-text)' }}>
+                Classroom Quiz Wheel
+              </h3>
+              <span style={{ fontSize: '0.8rem', color: '#EC4899', fontWeight: '600' }}>
+                Smartboard Tool • Dual Independent Wheels
+              </span>
+            </div>
+          </div>
+          <p style={{ color: 'var(--color-text-muted)', margin: 0, fontSize: '0.9rem', lineHeight: 1.45 }}>
+            Spin the 🎯 Question Wheel & 👨‍🎓 Roll Number Wheel with zero student repetition, sound effects, spotlight mode, and turn logs!
+          </p>
+          <Link
+            to="/quiz-wheel"
+            style={{
+              marginTop: 'auto',
+              padding: '10px 18px',
+              borderRadius: '8px',
+              background: 'linear-gradient(135deg, #EC4899, #8B5CF6)',
+              color: '#ffffff',
+              fontWeight: '700',
+              textDecoration: 'none',
+              textAlign: 'center',
+              fontSize: '0.9rem',
+            }}
+          >
+            Open Quiz Wheel ➔
+          </Link>
+        </div>
+
         {/* Operating System Lab */}
         <div
           style={{

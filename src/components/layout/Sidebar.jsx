@@ -67,6 +67,7 @@ const practiceSections = [
   {
     label: 'Practice & Labs',
     links: [
+      { to: '/quiz-wheel', label: '🎡 Classroom Quiz Wheel' },
       { to: '/labs/cyber-virus-lab', label: '🛡️ Cyber Virus Lab' },
       { to: '/labs', label: '🧪 Interactive Labs' },
       { to: '/quiz', label: '🎯 Quiz Center' },
