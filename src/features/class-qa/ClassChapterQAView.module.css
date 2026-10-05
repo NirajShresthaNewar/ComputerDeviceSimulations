@@ -589,6 +589,59 @@
   border-color: var(--color-accent);
 }
 
+/* Key Concept Cards Grid */
+.conceptGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.conceptCard {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: all var(--transition-fast);
+  border-top: 3px solid var(--color-accent);
+}
+
+.conceptCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  border-color: var(--color-accent);
+}
+
+.conceptBadge {
+  align-self: flex-start;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgba(61, 220, 151, 0.15);
+  color: var(--color-accent);
+  border: 1px solid rgba(61, 220, 151, 0.3);
+}
+
+.conceptTitle {
+  font-size: 1.05em;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.conceptDesc {
+  font-size: 0.9em;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  margin: 0;
+}
+
 /* Quick Summary Bar */
 .bottomStatsBar {
   display: flex;

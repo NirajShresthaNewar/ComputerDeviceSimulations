@@ -43,6 +43,7 @@ const classQASyllabus = [
     name: 'Class 7 Q&A',
     badge: 'Middle',
     chapters: [
+      { to: '/class-qa/class-7/chapter-5', label: '💿 Ch 5: Software & Types', isFeatured: true },
       { to: '/class-qa/class-7/chapter-1', label: '🖥️ Ch 1: Computer System', isSim: true },
       { to: '/class-qa/class-7/chapter-2', label: '🔢 Ch 2: Number Systems', isSim: true },
       { to: '/class-qa/class-7/chapter-3', label: '⚙️ Ch 3: OS Settings & Control', isSim: true },

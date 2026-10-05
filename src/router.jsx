@@ -65,8 +65,10 @@ export default function AppRouter() {
       <Route path="/class-qa" element={<ClassQAPage />} />
       <Route path="/class-qa/:classId" element={<ClassQAPage />} />
       <Route path="/class-qa/class-6/chapter-5" element={<ClassChapterQAView />} />
+      <Route path="/class-qa/class-7/chapter-5" element={<ClassChapterQAView />} />
       <Route path="/class-qa/:classId/:chapterId" element={<ClassChapterQAView />} />
       <Route path="/class/6/chapter/5" element={<ClassChapterQAView />} />
+      <Route path="/class/7/chapter/5" element={<ClassChapterQAView />} />
     </Routes>
   );
 }

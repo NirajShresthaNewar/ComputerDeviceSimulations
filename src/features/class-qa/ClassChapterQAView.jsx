@@ -1,27 +1,58 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
-import { useParams } from 'react-router-dom';
-import { CLASS_6_OS_QA } from '../../data/classQAData';
+import { useParams, useLocation, Link } from 'react-router-dom';
+import { getQAData, CLASS_QA_CATALOG } from '../../data/classQAData';
 import styles from './ClassChapterQAView.module.css';
 
-const STORAGE_KEY = 'class6_os_qa_custom_v1';
-
 export default function ClassChapterQAView() {
-  const { chapterId } = useParams();
+  const { classId: paramClassId, chapterId: paramChapterId } = useParams();
+  const location = useLocation();
 
-  // Load custom data from localStorage, fallback to default CLASS_6_OS_QA
+  // Determine current class and chapter from URL parameters or pathname
+  const effectiveClassId = useMemo(() => {
+    if (paramClassId) return paramClassId;
+    if (location.pathname.includes('class-7')) return 'class-7';
+    if (location.pathname.includes('class-8')) return 'class-8';
+    return 'class-6';
+  }, [paramClassId, location.pathname]);
+
+  const effectiveChapterId = useMemo(() => {
+    if (paramChapterId) return paramChapterId;
+    if (location.pathname.includes('chapter-6')) return 'chapter-6';
+    return 'chapter-5';
+  }, [paramChapterId, location.pathname]);
+
+  const storageKey = `qa_custom_${effectiveClassId}_${effectiveChapterId}_v2`;
+
+  // Load custom data from localStorage, fallback to getQAData
   const [qaData, setQaData] = useState(() => {
     try {
-      const saved = localStorage.getItem(STORAGE_KEY);
+      const saved = localStorage.getItem(storageKey);
       if (saved) {
         return JSON.parse(saved);
       }
     } catch (e) {
       console.error('Error loading saved Q&A data:', e);
     }
-    return CLASS_6_OS_QA;
+    return getQAData(effectiveClassId, effectiveChapterId);
   });
 
-  const [activeTab, setActiveTab] = useState('all'); // 'all' | 'questions' | 'dos' | 'table'
+  // Re-sync if classId or chapterId route changes
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(storageKey);
+      if (saved) {
+        setQaData(JSON.parse(saved));
+        return;
+      }
+    } catch (e) {
+      console.error('Error reading localStorage for route change:', e);
+    }
+    setQaData(getQAData(effectiveClassId, effectiveChapterId));
+    setActiveTab('all');
+    setSearchQuery('');
+  }, [effectiveClassId, effectiveChapterId, storageKey]);
+
+  const [activeTab, setActiveTab] = useState('all'); // 'all' | 'questions' | 'dos' | 'table' | 'concepts'
   const [zoomLevel, setZoomLevel] = useState('large'); // 'normal' | 'large' | 'xlarge'
   const [searchQuery, setSearchQuery] = useState('');
   const [hideAllAnswers, setHideAllAnswers] = useState(false);
@@ -34,18 +65,21 @@ export default function ClassChapterQAView() {
   // Save to localStorage whenever qaData changes
   useEffect(() => {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(qaData));
+      localStorage.setItem(storageKey, JSON.stringify(qaData));
       setSaveStatus('Saved locally');
       const timer = setTimeout(() => setSaveStatus(''), 2000);
       return () => clearTimeout(timer);
     } catch (e) {
       console.error('Error saving Q&A data:', e);
     }
-  }, [qaData]);
+  }, [qaData, storageKey]);
 
-  // Determine chapter display number (5 or 6 based on URL or default)
-  const isChap6 = chapterId === 'chapter-6' || window.location.pathname.includes('chapter-6');
-  const chapterNumber = isChap6 ? 6 : 5;
+  const chapterNumber = qaData.chapterNumber || (effectiveChapterId.includes('6') ? 6 : 5);
+  const className = qaData.className || (effectiveClassId === 'class-7' ? 'Class 7' : 'Class 6');
+
+  const hasDosCommands = Boolean(qaData.dosCommandsSection && qaData.dosCommandsSection.commands?.length > 0);
+  const hasKeyConcepts = Boolean(qaData.keyConceptsSection && qaData.keyConceptsSection.items?.length > 0);
+  const hasTableItems = Boolean(qaData.questionsSection?.items?.some((i) => i.type === 'table'));
 
   const toggleReveal = (id) => {
     setRevealedItems((prev) => ({
@@ -61,9 +95,10 @@ export default function ClassChapterQAView() {
 
   // Reset to original defaults
   const handleResetDefaults = () => {
-    if (window.confirm('Reset all questions and DOS commands back to default textbook answers?')) {
-      setQaData(CLASS_6_OS_QA);
-      localStorage.removeItem(STORAGE_KEY);
+    if (window.confirm(`Reset all ${className} Chapter ${chapterNumber} questions back to default textbook answers?`)) {
+      const defaultData = getQAData(effectiveClassId, effectiveChapterId);
+      setQaData(defaultData);
+      localStorage.removeItem(storageKey);
       setIsEditMode(false);
     }
   };
@@ -73,7 +108,7 @@ export default function ClassChapterQAView() {
     const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(qaData, null, 2));
     const downloadAnchor = document.createElement('a');
     downloadAnchor.setAttribute('href', dataStr);
-    downloadAnchor.setAttribute('download', `Class6_Chapter5_QA_Notes.json`);
+    downloadAnchor.setAttribute('download', `${effectiveClassId}_Chapter${chapterNumber}_QA_Notes.json`);
     document.body.appendChild(downloadAnchor);
     downloadAnchor.click();
     downloadAnchor.remove();
@@ -87,7 +122,7 @@ export default function ClassChapterQAView() {
     reader.onload = (event) => {
       try {
         const parsed = JSON.parse(event.target.result);
-        if (parsed.questionsSection && parsed.dosCommandsSection) {
+        if (parsed.questionsSection) {
           setQaData(parsed);
           alert('✅ Custom Q&A dataset imported successfully!');
         } else {
@@ -101,7 +136,7 @@ export default function ClassChapterQAView() {
     e.target.value = null; // reset input
   };
 
-  // EDIT HANDLERS FOR SECTION 4 (QUESTIONS)
+  // EDIT HANDLERS FOR QUESTIONS
   const handleUpdateQuestionText = (id, newText) => {
     setQaData((prev) => ({
       ...prev,
@@ -155,7 +190,7 @@ export default function ClassChapterQAView() {
             ...item,
             table: {
               ...item.table,
-              rows: [...item.table.rows, { file: 'New file point...', directory: 'New directory point...' }],
+              rows: [...item.table.rows, { col1: 'Point 1...', col2: 'Point 2...' }],
             },
           };
         }),
@@ -182,7 +217,8 @@ export default function ClassChapterQAView() {
   };
 
   const handleAddNewQuestion = () => {
-    const nextCode = String.fromCharCode(97 + qaData.questionsSection.items.length); // a, b, c, ...
+    const itemsCount = qaData.questionsSection?.items?.length || 0;
+    const nextCode = String.fromCharCode(97 + itemsCount); // a, b, c, ...
     const newQ = {
       id: `q-custom-${Date.now()}`,
       itemLabel: nextCode,
@@ -194,7 +230,7 @@ export default function ClassChapterQAView() {
       ...prev,
       questionsSection: {
         ...prev.questionsSection,
-        items: [...prev.questionsSection.items, newQ],
+        items: [...(prev.questionsSection?.items || []), newQ],
       },
     }));
   };
@@ -211,8 +247,9 @@ export default function ClassChapterQAView() {
     }
   };
 
-  // EDIT HANDLERS FOR SECTION 5 (DOS COMMANDS)
+  // EDIT HANDLERS FOR DOS COMMANDS
   const handleUpdateDosCmd = (id, field, value) => {
+    if (!qaData.dosCommandsSection) return;
     setQaData((prev) => ({
       ...prev,
       dosCommandsSection: {
@@ -225,6 +262,7 @@ export default function ClassChapterQAView() {
   };
 
   const handleAddNewDosCommand = () => {
+    if (!qaData.dosCommandsSection) return;
     const nextCode = String.fromCharCode(97 + qaData.dosCommandsSection.commands.length);
     const newCmd = {
       id: `cmd-custom-${Date.now()}`,
@@ -243,6 +281,7 @@ export default function ClassChapterQAView() {
   };
 
   const handleDeleteDosCommand = (id) => {
+    if (!qaData.dosCommandsSection) return;
     if (window.confirm('Delete this DOS command?')) {
       setQaData((prev) => ({
         ...prev,
@@ -257,7 +296,8 @@ export default function ClassChapterQAView() {
   // Filter questions by search
   const filteredQuestions = useMemo(() => {
     const query = searchQuery.toLowerCase();
-    return qaData.questionsSection.items.filter((item) => {
+    const items = qaData.questionsSection?.items || [];
+    return items.filter((item) => {
       if (!query) return true;
       const qMatch = item.question?.toLowerCase().includes(query);
       const aMatch = item.answer?.toLowerCase().includes(query);
@@ -266,10 +306,11 @@ export default function ClassChapterQAView() {
       );
       return qMatch || aMatch || defMatch;
     });
-  }, [searchQuery, qaData.questionsSection.items]);
+  }, [searchQuery, qaData.questionsSection?.items]);
 
   // Filter DOS commands by search
   const filteredDosCommands = useMemo(() => {
+    if (!qaData.dosCommandsSection?.commands) return [];
     const query = searchQuery.toLowerCase();
     return qaData.dosCommandsSection.commands.filter((cmd) => {
       if (!query) return true;
@@ -279,7 +320,7 @@ export default function ClassChapterQAView() {
         cmd.category?.toLowerCase().includes(query)
       );
     });
-  }, [searchQuery, qaData.dosCommandsSection.commands]);
+  }, [searchQuery, qaData.dosCommandsSection?.commands]);
 
   // Zoom class mapping
   const zoomClass =
@@ -300,16 +341,60 @@ export default function ClassChapterQAView() {
         onChange={handleImportJSON}
       />
 
+      {/* Top Breadcrumb & Class Selector */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: 'var(--color-text-muted)' }}>
+          <Link to="/class-qa" style={{ color: 'var(--color-accent)', textDecoration: 'none' }}>📚 Q&A Bank</Link>
+          <span>/</span>
+          <span>{className}</span>
+          <span>/</span>
+          <span style={{ color: 'var(--color-text)', fontWeight: '600' }}>Ch {chapterNumber}: {qaData.chapterTitle}</span>
+        </div>
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <Link
+            to="/class-qa/class-6/chapter-5"
+            style={{
+              padding: '4px 10px',
+              borderRadius: '4px',
+              fontSize: '12px',
+              textDecoration: 'none',
+              fontWeight: effectiveClassId === 'class-6' ? '700' : '400',
+              background: effectiveClassId === 'class-6' ? 'var(--color-accent)' : 'var(--color-surface-raised)',
+              color: effectiveClassId === 'class-6' ? '#000' : 'var(--color-text-muted)',
+              border: '1px solid var(--color-border)'
+            }}
+          >
+            ⚙️ Class 6 Ch 5
+          </Link>
+          <Link
+            to="/class-qa/class-7/chapter-5"
+            style={{
+              padding: '4px 10px',
+              borderRadius: '4px',
+              fontSize: '12px',
+              textDecoration: 'none',
+              fontWeight: effectiveClassId === 'class-7' ? '700' : '400',
+              background: effectiveClassId === 'class-7' ? 'var(--color-accent)' : 'var(--color-surface-raised)',
+              color: effectiveClassId === 'class-7' ? '#000' : 'var(--color-text-muted)',
+              border: '1px solid var(--color-border)'
+            }}
+          >
+            💿 Class 7 Ch 5 (Software)
+          </Link>
+        </div>
+      </div>
+
       {/* Top Banner & Smart Board Toolbar */}
       <header className={styles.smartboardHeader}>
         <div className={styles.headerTitleGroup}>
-          <div className={styles.headerIcon}>🖥️</div>
+          <div className={styles.headerIcon}>{effectiveClassId === 'class-7' ? '💿' : '🖥️'}</div>
           <div>
             <h1 className={styles.headerTitle}>
-              Class 6 Chapter {chapterNumber}: {qaData.chapterTitle}
+              {className} Chapter {chapterNumber}: {qaData.chapterTitle}
             </h1>
             <p className={styles.headerSubtitle}>
-              Classroom & Smart Board Study Q&A Notes
+              {qaData.subtitle || 'Classroom & Smart Board Study Q&A Notes'}
             </p>
           </div>
         </div>
@@ -370,7 +455,7 @@ export default function ClassChapterQAView() {
       {isEditMode && (
         <div className={styles.editModeBanner}>
           <div>
-            <strong>✏️ Teacher Live Edit Mode Active:</strong> Click any question, answer, table cell, or DOS command below to edit. Edits save automatically in browser memory.
+            <strong>✏️ Teacher Live Edit Mode Active:</strong> Click any question, answer, table cell, or definition below to edit. Edits save automatically in your browser.
             {saveStatus && <span style={{ marginLeft: '10px', color: 'var(--color-accent)' }}>• {saveStatus}</span>}
           </div>
           <div className={styles.editActionsGroup}>
@@ -393,9 +478,9 @@ export default function ClassChapterQAView() {
           className={`${styles.tabBtn} ${activeTab === 'all' ? styles.tabBtnActive : ''}`}
           onClick={() => setActiveTab('all')}
         >
-          <span>📋 All Q&A & Commands</span>
+          <span>📋 All Notes</span>
           <span className={styles.badgePill}>
-            {qaData.questionsSection.items.length + qaData.dosCommandsSection.commands.length}
+            {(qaData.questionsSection?.items?.length || 0) + (qaData.dosCommandsSection?.commands?.length || 0)}
           </span>
         </button>
 
@@ -403,28 +488,44 @@ export default function ClassChapterQAView() {
           className={`${styles.tabBtn} ${activeTab === 'questions' ? styles.tabBtnActive : ''}`}
           onClick={() => setActiveTab('questions')}
         >
-          <span>📝 4. Question & Answers</span>
+          <span>📝 Question Answers</span>
           <span className={styles.badgePill}>
-            {qaData.questionsSection.items.length} items
+            {qaData.questionsSection?.items?.length || 0} items
           </span>
         </button>
 
-        <button
-          className={`${styles.tabBtn} ${activeTab === 'dos' ? styles.tabBtnActive : ''}`}
-          onClick={() => setActiveTab('dos')}
-        >
-          <span>⚡ 5. Functions of DOS Commands</span>
-          <span className={styles.badgePill}>
-            {qaData.dosCommandsSection.commands.length} cmds
-          </span>
-        </button>
+        {hasDosCommands && (
+          <button
+            className={`${styles.tabBtn} ${activeTab === 'dos' ? styles.tabBtnActive : ''}`}
+            onClick={() => setActiveTab('dos')}
+          >
+            <span>⚡ 5. Functions of DOS Commands</span>
+            <span className={styles.badgePill}>
+              {qaData.dosCommandsSection.commands.length} cmds
+            </span>
+          </button>
+        )}
 
-        <button
-          className={`${styles.tabBtn} ${activeTab === 'table' ? styles.tabBtnActive : ''}`}
-          onClick={() => setActiveTab('table')}
-        >
-          <span>⚖️ File vs Directory Table</span>
-        </button>
+        {hasTableItems && (
+          <button
+            className={`${styles.tabBtn} ${activeTab === 'table' ? styles.tabBtnActive : ''}`}
+            onClick={() => setActiveTab('table')}
+          >
+            <span>⚖️ Comparison Tables</span>
+          </button>
+        )}
+
+        {hasKeyConcepts && (
+          <button
+            className={`${styles.tabBtn} ${activeTab === 'concepts' ? styles.tabBtnActive : ''}`}
+            onClick={() => setActiveTab('concepts')}
+          >
+            <span>💡 Key Concepts</span>
+            <span className={styles.badgePill}>
+              {qaData.keyConceptsSection.items.length}
+            </span>
+          </button>
+        )}
       </nav>
 
       {/* Search Filter */}
@@ -433,20 +534,42 @@ export default function ClassChapterQAView() {
         <input
           type="text"
           className={styles.searchInput}
-          placeholder="Filter questions, DOS commands (e.g. CD, Booting, File, Internal)..."
+          placeholder={`Filter ${className} Ch ${chapterNumber} questions, definitions, topics...`}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
       </div>
 
       {/* ============================================================ */}
-      {/* 4. ANSWER THE FOLLOWING QUESTIONS */}
+      {/* KEY CONCEPTS SECTION (if available) */}
+      {/* ============================================================ */}
+      {hasKeyConcepts && (activeTab === 'all' || activeTab === 'concepts') && (
+        <section className={styles.sectionBlock}>
+          <div className={styles.sectionHeadingRow}>
+            <h2 className={styles.sectionHeading}>
+              {qaData.keyConceptsSection.title}
+            </h2>
+          </div>
+          <div className={styles.conceptGrid}>
+            {qaData.keyConceptsSection.items.map((concept, idx) => (
+              <div key={idx} className={styles.conceptCard}>
+                <span className={styles.conceptBadge}>{concept.badge}</span>
+                <h3 className={styles.conceptTitle}>{concept.title}</h3>
+                <p className={styles.conceptDesc}>{concept.desc}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* ============================================================ */}
+      {/* ANSWER THE FOLLOWING QUESTIONS */}
       {/* ============================================================ */}
       {(activeTab === 'all' || activeTab === 'questions' || activeTab === 'table') && (
         <section className={styles.sectionBlock}>
           <div className={styles.sectionHeadingRow}>
             <h2 className={styles.sectionHeading}>
-              <span>📝</span> {qaData.questionsSection.title}
+              <span>📝</span> {qaData.questionsSection?.title || 'Questions & Answers'}
             </h2>
             {isEditMode && (
               <button className={styles.smallActionBtn} onClick={handleAddNewQuestion}>
@@ -457,7 +580,7 @@ export default function ClassChapterQAView() {
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
             {filteredQuestions.map((item) => {
-              if (activeTab === 'table' && item.itemLabel !== 'f') return null;
+              if (activeTab === 'table' && item.type !== 'table') return null;
 
               const isAnswerVisible = hideAllAnswers
                 ? revealedItems[item.id]
@@ -516,78 +639,67 @@ export default function ClassChapterQAView() {
                               placeholder="Type answer here..."
                             />
                           ) : (
-                            <p className={styles.answerText}>
-                              {item.answer?.includes('IO.SYS, MSDOS.SYS and COMMAND.COM') ? (
-                                <>
-                                  The essential DOS system files are{' '}
-                                  <span className={styles.highlightBadge}>IO.SYS</span>,{' '}
-                                  <span className={styles.highlightBadge}>MSDOS.SYS</span> and{' '}
-                                  <span className={styles.highlightBadge}>COMMAND.COM</span>.
-                                </>
-                              ) : item.itemLabel === 'e' ? (
-                                <>
-                                  Booting is the process of starting a computer.
-                                  <br />
-                                  <strong>Types:</strong>{' '}
-                                  <span className={styles.highlightBadge}>Cold booting</span> and{' '}
-                                  <span className={styles.highlightBadge}>Warm booting</span>.
-                                </>
-                              ) : (
-                                item.answer
-                              )}
-                            </p>
+                            <div className={styles.answerText} style={{ whiteSpace: 'pre-line', lineHeight: '1.6' }}>
+                              {item.answer}
+                            </div>
                           )}
                         </>
                       )}
 
-                      {/* File vs Directory Table */}
+                      {/* Comparison / Difference Table */}
                       {item.type === 'table' && (
                         <div className={styles.tableWrapper}>
                           <table className={styles.compactTable}>
                             <thead>
                               <tr>
-                                <th style={{ width: '50%' }}>📁 {item.table?.headers[0]}</th>
-                                <th style={{ width: '50%' }}>📂 {item.table?.headers[1]}</th>
+                                <th style={{ width: '50%' }}>
+                                  {item.table?.headers?.[0] || 'Column 1'}
+                                </th>
+                                <th style={{ width: '50%' }}>
+                                  {item.table?.headers?.[1] || 'Column 2'}
+                                </th>
                               </tr>
                             </thead>
                             <tbody>
-                              {item.table?.rows.map((row, rIdx) => (
-                                <tr key={rIdx}>
-                                  <td>
-                                    {isEditMode ? (
-                                      <input
-                                        type="text"
-                                        className={styles.editInput}
-                                        value={row.file}
-                                        onChange={(e) =>
-                                          handleUpdateTableData(item.id, rIdx, 'file', e.target.value)
-                                        }
-                                      />
-                                    ) : (
-                                      row.file
-                                    )}
-                                  </td>
-                                  <td>
-                                    {isEditMode ? (
-                                      <input
-                                        type="text"
-                                        className={styles.editInput}
-                                        value={row.directory}
-                                        onChange={(e) =>
-                                          handleUpdateTableData(
-                                            item.id,
-                                            rIdx,
-                                            'directory',
-                                            e.target.value
-                                          )
-                                        }
-                                      />
-                                    ) : (
-                                      row.directory
-                                    )}
-                                  </td>
-                                </tr>
-                              ))}
+                              {item.table?.rows.map((row, rIdx) => {
+                                const val1 = row.col1 !== undefined ? row.col1 : row.file;
+                                const val2 = row.col2 !== undefined ? row.col2 : row.directory;
+                                const field1 = row.col1 !== undefined ? 'col1' : 'file';
+                                const field2 = row.col2 !== undefined ? 'col2' : 'directory';
+
+                                return (
+                                  <tr key={rIdx}>
+                                    <td>
+                                      {isEditMode ? (
+                                        <input
+                                          type="text"
+                                          className={styles.editInput}
+                                          value={val1 || ''}
+                                          onChange={(e) =>
+                                            handleUpdateTableData(item.id, rIdx, field1, e.target.value)
+                                          }
+                                        />
+                                      ) : (
+                                        val1
+                                      )}
+                                    </td>
+                                    <td>
+                                      {isEditMode ? (
+                                        <input
+                                          type="text"
+                                          className={styles.editInput}
+                                          value={val2 || ''}
+                                          onChange={(e) =>
+                                            handleUpdateTableData(item.id, rIdx, field2, e.target.value)
+                                          }
+                                        />
+                                      ) : (
+                                        val2
+                                      )}
+                                    </td>
+                                  </tr>
+                                );
+                              })}
                             </tbody>
                           </table>
                           {isEditMode && (
@@ -602,7 +714,7 @@ export default function ClassChapterQAView() {
                         </div>
                       )}
 
-                      {/* Definitions (Internal vs External) */}
+                      {/* Definitions Block */}
                       {item.type === 'definitions' && (
                         <div className={styles.defGrid}>
                           {item.definitions?.map((def, dIdx) => (
@@ -649,9 +761,9 @@ export default function ClassChapterQAView() {
       )}
 
       {/* ============================================================ */}
-      {/* 5. FUNCTIONS OF DOS COMMANDS */}
+      {/* 5. FUNCTIONS OF DOS COMMANDS (if present in dataset) */}
       {/* ============================================================ */}
-      {(activeTab === 'all' || activeTab === 'dos') && (
+      {hasDosCommands && (activeTab === 'all' || activeTab === 'dos') && (
         <section className={styles.sectionBlock} style={{ marginTop: '10px' }}>
           <div className={styles.sectionHeadingRow}>
             <h2 className={styles.sectionHeading}>
@@ -733,9 +845,10 @@ export default function ClassChapterQAView() {
 
       {/* Bottom Summary Bar */}
       <footer className={styles.bottomStatsBar}>
-        <span>📌 <strong>Class 6 Computer Science</strong> • High-Visibility Smart Board Presentation</span>
+        <span>📌 <strong>{className} Computer Science</strong> • High-Visibility Smart Board Presentation</span>
         <span>
-          Total: {qaData.questionsSection.items.length} Questions + {qaData.dosCommandsSection.commands.length} DOS Commands
+          Total: {qaData.questionsSection?.items?.length || 0} Questions
+          {hasDosCommands ? ` + ${qaData.dosCommandsSection.commands.length} DOS Commands` : ''}
         </span>
       </footer>
     </div>

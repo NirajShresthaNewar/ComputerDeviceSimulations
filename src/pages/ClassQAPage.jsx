@@ -71,15 +71,15 @@ export default function ClassQAPage() {
             gap: '16px'
           }}>
             {cls.chapters.map((ch) => {
-              const isCh5 = ch.chapterNumber === 5 && cls.classId === 'class-6';
-              const targetRoute = isCh5 ? `/class-qa/class-6/chapter-5` : `/class-qa/${cls.classId}/${ch.chapterId}`;
+              const isAvailable = ch.isAvailable;
+              const targetRoute = `/class-qa/${cls.classId}/${ch.chapterId}`;
 
               return (
                 <div
                   key={ch.chapterId}
                   style={{
-                    background: isCh5 ? 'rgba(61, 220, 151, 0.08)' : 'var(--color-surface-raised)',
-                    border: `1px solid ${isCh5 ? 'var(--color-accent)' : 'var(--color-border)'}`,
+                    background: isAvailable ? 'rgba(61, 220, 151, 0.08)' : 'var(--color-surface-raised)',
+                    border: `1px solid ${isAvailable ? 'var(--color-accent)' : 'var(--color-border)'}`,
                     borderRadius: 'var(--radius-sm)',
                     padding: '16px 18px',
                     display: 'flex',
@@ -94,8 +94,9 @@ export default function ClassQAPage() {
                       <span style={{ fontSize: '24px' }}>{ch.icon}</span>
                       {ch.badge && (
                         <span style={{
-                          background: 'var(--color-accent)',
-                          color: '#000',
+                          background: isAvailable ? 'var(--color-accent)' : 'var(--color-surface)',
+                          color: isAvailable ? '#000' : 'var(--color-text-muted)',
+                          border: isAvailable ? 'none' : '1px solid var(--color-border)',
                           fontSize: '10px',
                           fontWeight: '700',
                           padding: '2px 6px',
@@ -118,7 +119,7 @@ export default function ClassQAPage() {
                   </div>
 
                   <div>
-                    {isCh5 ? (
+                    {isAvailable ? (
                       <Link
                         to={targetRoute}
                         style={{
@@ -138,7 +139,7 @@ export default function ClassQAPage() {
                       </Link>
                     ) : (
                       <span style={{ fontSize: '12px', color: 'var(--color-text-muted)', fontStyle: 'italic' }}>
-                        {cls.classId === 'class-6' ? '📘 Content available via simulations' : '⏳ Syllabus in preparation'}
+                        ⏳ Syllabus in preparation
                       </span>
                     )}
                   </div>
