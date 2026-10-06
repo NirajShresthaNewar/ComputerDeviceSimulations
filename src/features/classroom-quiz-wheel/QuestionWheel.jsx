@@ -37,6 +37,8 @@ function wrapText(ctx, text, maxWidth, maxLines = 3) {
   return lines;
 }
 
+const LOGICAL_SIZE = 480;
+
 export default function QuestionWheel({
   questions = [],
   onSpinEnd,
@@ -60,11 +62,18 @@ export default function QuestionWheel({
       const canvas = canvasRef.current;
       if (!canvas) return;
       const ctx = canvas.getContext('2d');
-      const size = canvas.width;
+      const dpr = window.devicePixelRatio || 1;
+
+      // Reset transform and clear full canvas
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Set High-DPI logical scale
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      const size = LOGICAL_SIZE;
       const center = size / 2;
       const radius = center - 24;
-
-      ctx.clearRect(0, 0, size, size);
 
       // Outer glow and rim shadow
       ctx.save();
@@ -225,19 +234,16 @@ export default function QuestionWheel({
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const dpr = window.devicePixelRatio || 1;
-    const displaySize = 480;
-    canvas.width = displaySize * dpr;
-    canvas.height = displaySize * dpr;
-    canvas.style.width = '100%';
-    canvas.style.maxWidth = `${displaySize}px`;
-    canvas.style.height = 'auto';
-    canvas.style.aspectRatio = '1 / 1';
+    const updateCanvasDimensions = () => {
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = LOGICAL_SIZE * dpr;
+      canvas.height = LOGICAL_SIZE * dpr;
+      drawWheel(currentRotationRef.current);
+    };
 
-    const ctx = canvas.getContext('2d');
-    ctx.scale(dpr, dpr);
-
-    drawWheel(currentRotationRef.current);
+    updateCanvasDimensions();
+    window.addEventListener('resize', updateCanvasDimensions);
+    return () => window.removeEventListener('resize', updateCanvasDimensions);
   }, [drawWheel]);
 
   // Spin trigger function
@@ -324,7 +330,7 @@ export default function QuestionWheel({
 
       animationFrameRef.current = requestAnimationFrame(animate);
     },
-    [isSpinning, questions, arcSize, drawWheel, isSpinning, setIsSpinning, spinDuration, soundEnabled, onSpinEnd]
+    [isSpinning, questions, arcSize, drawWheel, setIsSpinning, spinDuration, soundEnabled, onSpinEnd]
   );
 
   // Clean up animation on unmount
@@ -342,60 +348,84 @@ export default function QuestionWheel({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        position: 'relative',
+        width: '100%',
         userSelect: 'none',
       }}
     >
-      {/* Top Pointer with Realistic Spring Needle */}
+      {/* Wheel and Pointer Anchor Wrapper */}
       <div
         style={{
-          position: 'absolute',
-          top: '-12px',
-          zIndex: 10,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          pointerEvents: 'none',
-          transform: `rotate(${pointerWobble}deg)`,
-          transformOrigin: 'top center',
-          transition: 'transform 50ms ease-out',
-        }}
-      >
-        <div
-          style={{
-            width: 0,
-            height: 0,
-            borderLeft: '18px solid transparent',
-            borderRight: '18px solid transparent',
-            borderTop: '36px solid #EF4444',
-            filter: 'drop-shadow(0 4px 6px rgba(0,0,0,0.5))',
-          }}
-        />
-        <div
-          style={{
-            width: '14px',
-            height: '14px',
-            borderRadius: '50%',
-            background: '#FDE047',
-            border: '2px solid #B91C1C',
-            marginTop: '-38px',
-          }}
-        />
-      </div>
-
-      {/* Canvas Wheel Element */}
-      <div
-        style={{
-          padding: '12px',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(30,41,59,0.5) 0%, rgba(15,23,42,0.8) 100%)',
-          boxShadow: '0 20px 35px -8px rgba(0,0,0,0.5)',
+          position: 'relative',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
+          width: '100%',
+          maxWidth: `${LOGICAL_SIZE}px`,
         }}
       >
-        <canvas ref={canvasRef} />
+        {/* Top Pointer with Realistic Spring Needle */}
+        <div
+          style={{
+            position: 'absolute',
+            top: '-10px',
+            left: '50%',
+            zIndex: 10,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            pointerEvents: 'none',
+            transform: `translateX(-50%) rotate(${pointerWobble}deg)`,
+            transformOrigin: '50% 0px',
+            transition: 'transform 50ms ease-out',
+          }}
+        >
+          <div
+            style={{
+              width: 0,
+              height: 0,
+              borderLeft: '18px solid transparent',
+              borderRight: '18px solid transparent',
+              borderTop: '36px solid #EF4444',
+              filter: 'drop-shadow(0 4px 6px rgba(0,0,0,0.5))',
+            }}
+          />
+          <div
+            style={{
+              width: '14px',
+              height: '14px',
+              borderRadius: '50%',
+              background: '#FDE047',
+              border: '2px solid #B91C1C',
+              marginTop: '-38px',
+            }}
+          />
+        </div>
+
+        {/* Canvas Wheel Element Container */}
+        <div
+          style={{
+            padding: '12px',
+            borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(30,41,59,0.5) 0%, rgba(15,23,42,0.8) 100%)',
+            boxShadow: '0 20px 35px -8px rgba(0,0,0,0.5)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '100%',
+            aspectRatio: '1 / 1',
+            boxSizing: 'border-box',
+          }}
+        >
+          <canvas
+            ref={canvasRef}
+            style={{
+              width: '100%',
+              height: '100%',
+              display: 'block',
+              aspectRatio: '1 / 1',
+            }}
+          />
+        </div>
       </div>
 
       {/* Action Spin Button */}
